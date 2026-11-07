@@ -46,7 +46,14 @@ jobs:
       run: npm ci
 
     - name: run tests
-      run: npm run test
+      run: npm run test -- --converage
+
+    - name: export coverage
+      run: |
+        total=$(node -p "require('./coverage/coverage-summary.json').total.lines.pct")
+        echo "total=$total" >> "$GITHUB_OUTPUT"
+        echo "Cobertura de linhas: $total%"
+
 
     - name: confirme tests
       run: echo "Tests completed successfully"
