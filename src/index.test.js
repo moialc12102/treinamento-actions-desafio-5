@@ -1,4 +1,4 @@
-const { strength } = require('../index');
+const { strength } = require('./index.js');
 
 describe('strength()', () => {
   it('classifica senha forte', () => {
