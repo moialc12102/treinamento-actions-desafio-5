@@ -29,3 +29,24 @@ jobs:
     
     - name: confirme lint
       run: echo "Linting completed successfully"
+
+  teste:
+    needs: lint
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - uses: actions/setup-node@v4
+      with:
+        node-version: 22
+      
+    - name: generate lock file
+      run: npm install --package-lock-only --ignore-scripts
+
+    - name: install dependencies
+      run: npm ci
+
+    - name: run tests
+      run: npm run test
+
+    - name: confirme tests
+      run: echo "Tests completed successfully"
