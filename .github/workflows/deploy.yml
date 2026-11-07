@@ -18,8 +18,14 @@ jobs:
       with:
         node-version: 22
     
-    - name: install dependencies
+    - name: generate lock file
       run: npm install --package-lock-only --ignore-scripts
 
-    - name: run linting
-      run: npm run lint >> echo "Linting completed successfully"
+    - name: install dependencies
+      run: npm ci
+
+    - name: run lint
+      run: npm run lint
+    
+    - name: confirme lint
+      run: echo "Linting completed successfully"
