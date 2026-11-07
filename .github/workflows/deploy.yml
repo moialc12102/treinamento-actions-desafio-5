@@ -19,5 +19,5 @@ jobs:
         node-version: 22
     
     -name: install dependencies
-      working-directory: ./
-      run: npm install --package-lock-only --ignore-scripts
+    working-directory: ./
+    run: npm install --package-lock-only --ignore-scripts
