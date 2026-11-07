@@ -34,7 +34,7 @@ jobs:
     needs: lint
     runs-on: ubuntu-latest
     outputs:
-      teste: ${{ steps.coverage.outputs.total }}
+      total: ${{ steps.coverage.outputs.total }}
     steps:
     - uses: actions/checkout@v4
     - uses: actions/setup-node@v4
@@ -48,9 +48,10 @@ jobs:
       run: npm ci
 
     - name: run tests
-      run: npm run test --converage
+      run: npm run test -- --coverage --coverageReporters=json-summary
 
     - name: export coverage
+      id: coverage
       run: |
         total=$(node -p "require('./coverage/coverage-summary.json').total.lines.pct")
         echo "total=$total" >> "$GITHUB_OUTPUT"
