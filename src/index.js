@@ -8,7 +8,6 @@ function checkCategories(password) {
 }
 
 function strength(password) {
-  const teste =50;
   const cats = checkCategories(password);
   const categories = Object.values(cats).filter(Boolean).length;
   if (password.length >= 12 && categories === 4) return 'forte';
