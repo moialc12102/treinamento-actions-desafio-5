@@ -60,7 +60,7 @@ jobs:
     - name: confirme tests
       run: echo "Tests completed successfully"
 
-  deploy:
+  generate-image:
     needs: teste
     runs-on: ubuntu-latest
     if: ${{ fromJSON(needs.teste.outputs.total) >= 80 }}
@@ -69,15 +69,23 @@ jobs:
     - uses: actions/setup-node@v4
       with:
         node-version: 22
-      
     - name: generate lock file
       run: npm install --package-lock-only --ignore-scripts
-
+    
     - name: install dependencies
       run: npm ci
 
-    - name: deploy application
-      run: npm run deploy
-
-    - name: confirme deploy
-      run: echo "Deploy completed successfully"
+    - name: login in to GitHub Container Registry
+      uses: docker/login-action@v3
+      with:
+        registry: ghcr.io
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+    
+    - name: build and push Docker image
+      uses: docker/build-push-action@v6
+      with:
+        context: .
+        push: true
+        tags: ghcr.io/${{ github.repository_owner }}/desafio5-app:latest
+    
