@@ -1,0 +1,34 @@
+# Dependências
+node_modules/
+vendor/
+
+# Ambiente e variáveis locais
+.env
+.env.*
+!.env.example
+.venv/
+venv/
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Builds e artefatos
+build/
+dist/
+out/
+coverage/
+*.py[cod]
+__pycache__/
+*.egg-info/
+
+# Sistemas operacionais
+.DS_Store
+Thumbs.db
+
+# Editores
+.vscode/
+.idea/
+*.swp
