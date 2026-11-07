@@ -60,7 +60,7 @@ jobs:
     - name: confirme tests
       run: echo "Tests completed successfully"
 
-  generate-image:
+  generate-and-push-image:
     needs: teste
     runs-on: ubuntu-latest
     if: ${{ fromJSON(needs.teste.outputs.total) >= 80 }}
@@ -87,5 +87,6 @@ jobs:
       with:
         context: .
         push: true
+        build-args: GH_PACKAGES_TOKEN=${{ secrets.GITHUB_TOKEN }}
         tags: ghcr.io/${{ github.repository_owner }}/desafio5-app:latest
     
