@@ -33,6 +33,8 @@ jobs:
   teste:
     needs: lint
     runs-on: ubuntu-latest
+    outputs:
+      teste: ${{ steps.coverage.outputs.total }}
     steps:
     - uses: actions/checkout@v4
     - uses: actions/setup-node@v4
@@ -54,6 +56,27 @@ jobs:
         echo "total=$total" >> "$GITHUB_OUTPUT"
         echo "Cobertura de linhas: $total%"
 
-
     - name: confirme tests
       run: echo "Tests completed successfully"
+
+  deploy:
+    needs: teste
+    runs-on: ubuntu-latest
+    if: ${{ fromJSON(needs.teste.outputs.total) >= 80 }}
+    steps:
+    - uses: actions/checkout@v4
+    - uses: actions/setup-node@v4
+      with:
+        node-version: 22
+      
+    - name: generate lock file
+      run: npm install --package-lock-only --ignore-scripts
+
+    - name: install dependencies
+      run: npm ci
+
+    - name: deploy application
+      run: npm run deploy
+
+    - name: confirme deploy
+      run: echo "Deploy completed successfully"
